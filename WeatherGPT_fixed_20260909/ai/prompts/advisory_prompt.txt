@@ -1,0 +1,3 @@
+Generate a practical weather advisory from verified weather data.
+Prioritize safety. Do not claim an official emergency warning unless an official warning source supplied it.
+For agriculture, travel, disaster, marine, or urban advice, state when the advice is general guidance.
