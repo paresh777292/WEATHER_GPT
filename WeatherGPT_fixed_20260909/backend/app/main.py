@@ -76,32 +76,11 @@ def root():
 # CORS
 # ============================================================
 
-FRONTEND_ORIGIN = os.getenv(
-    "FRONTEND_ORIGIN",
-    "http://localhost:5173"
-)
-
 app.add_middleware(
     CORSMiddleware,
-
-    allow_origins=[
-        FRONTEND_ORIGIN,
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-        "http://localhost:5174",
-        "http://127.0.0.1:5174",
-        "http://localhost:5175",
-        "http://127.0.0.1:5175",
-        "http://localhost:5176",
-        "http://127.0.0.1:5176",
-        "http://localhost:3000",
-        "http://127.0.0.1:3000",
-    ],
-
+    allow_origins=["*"],
     allow_credentials=True,
-
     allow_methods=["*"],
-
     allow_headers=["*"],
 )
 
@@ -179,8 +158,8 @@ class ChatRequest(BaseModel):
     # Example:
     #
     # {
-    #     "message": "kal baarish hogi?",
-    #     "city": "Mumbai"
+    #      "message": "kal baarish hogi?",
+    #      "city": "Mumbai"
     # }
 
     city: Optional[str] = None
@@ -807,17 +786,11 @@ def get_google_daily_weather_facts(
             {}
         ) or {}
 
-        year = display_date.get(
-            "year"
-        )
+        year = display_date.get("year")
 
-        month = display_date.get(
-            "month"
-        )
+        month = display_date.get("month")
 
-        day_number = display_date.get(
-            "day"
-        )
+        day_number = display_date.get("day")
 
         if not all([
             year is not None,
@@ -3207,9 +3180,6 @@ async def voice_transcribe(audio: UploadFile = File(...), language: str = Form("
     lang = {"hi":"hi-IN", "mr":"mr-IN", "en":"en-IN"}.get(language, "unknown")
     mode = "translit" if language == "auto" else "transcribe"
     filename = audio.filename or "weather-gpt.webm"
-    # Sarvam only accepts plain MIME types (e.g. "audio/webm") and rejects
-    # anything with a codec suffix like "audio/webm;codecs=opus", which is
-    # what browsers report as MediaRecorder.mimeType. Strip that suffix.
     content_type = (audio.content_type or "audio/webm").split(";")[0].strip()
 
     try:
